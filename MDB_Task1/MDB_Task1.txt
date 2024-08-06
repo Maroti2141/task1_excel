@@ -1,0 +1,79 @@
+1) greater than
+db.Customer.find({
+age:{$gt:50}
+})
+----------------
+
+2) greater than equal to
+db.Customer.find({
+age:{$gte:50}
+})
+----------------
+3) lessthan
+db.Customer.find({
+age:{$lt:50}
+})
+----------------
+4) ss than equal to
+db.Customer.find({
+age:{$lte:50}
+})
+----------------
+5) between
+db.Customer.find({
+    age: {
+        $gte: 50, 
+        $lte: 75
+    }
+})
+----------------
+6) greater than
+db.Sales.find({
+sales: {$gte: 1000}
+})
+
+----------------
+7) date between
+db.Sales.find({
+order_date:{
+    $gte: new Date('2015-01-01'),
+    $lte: new Date('2016-12-31')
+    }
+    })
+
+----------------
+8) or in mongodb
+db.Sales.find({
+$or:[
+{sales:{$gt:10000}},
+{order_line:13}
+]
+})
+----------------
+9) insert mongo db
+db.Test1.insert({
+id: 4,
+name: 'col1',
+mob : 1344555,
+address : 'address1',
+grade : 'A'
+})
+----------------
+10) find all
+db.Test1.find()
+----------------
+
+11) Mongo db update
+db.Test1.update(
+{id:2},
+{$set :{
+name:'update2'
+}
+}
+)
+
+
+
+exit
+cls
+
