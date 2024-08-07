@@ -2,23 +2,23 @@
 db.Customer.find({
 age:{$gt:50}
 })
-----------------
+---------------------------------------------------------------------
 
 2) greater than equal to
 db.Customer.find({
 age:{$gte:50}
 })
-----------------
-3) lessthan
+---------------------------------------------------------------------
+3) lessthan in mongobd
 db.Customer.find({
 age:{$lt:50}
 })
-----------------
+---------------------------------------------------------------------
 4) ss than equal to
 db.Customer.find({
 age:{$lte:50}
 })
-----------------
+---------------------------------------------------------------------
 5) between
 db.Customer.find({
     age: {
@@ -26,13 +26,13 @@ db.Customer.find({
         $lte: 75
     }
 })
-----------------
+---------------------------------------------------------------------
 6) greater than
 db.Sales.find({
 sales: {$gte: 1000}
 })
 
-----------------
+---------------------------------------------------------------------
 7) date between
 db.Sales.find({
 order_date:{
@@ -41,7 +41,7 @@ order_date:{
     }
     })
 
-----------------
+---------------------------------------------------------------------
 8) or in mongodb
 db.Sales.find({
 $or:[
@@ -49,7 +49,7 @@ $or:[
 {order_line:13}
 ]
 })
-----------------
+---------------------------------------------------------------------
 9) insert mongo db
 db.Test1.insert({
 id: 4,
@@ -58,22 +58,150 @@ mob : 1344555,
 address : 'address1',
 grade : 'A'
 })
-----------------
+---------------------------------------------------------------------
 10) find all
 db.Test1.find()
-----------------
+---------------------------------------------------------------------
 
 11) Mongo db update
 db.Test1.update(
 {id:2},
-{$set :{
-name:'update2'
-}
-}
+{$set :{name:'update2'}}
 )
 
+---------------------------------------------------------------------
+12)findoneandupdate
+db.Test1.findOneAndUpdate({
+name:'update2'},
+{$inc:{id:4}
+})
+
+db.Test1.findOneAndUpdate({
+id:7},
+{$set:{id:3}
+})
+
+---------------------------------------------------------------------
+13)insertMany
+db.Test1.insertMany([
+{
+id:1,
+name:'name11',
+mob:52555,
+grade:'C'
+},
+{
+id:11,
+name:'name11',
+mob:85655,
+grade:'F',
+student:25
+
+}
+])
+---------------------------------------------------------------------
+14) drop all data
+db.Test1.drop()
+---------------------------------------------------------------------
+15) delete single data 
+
+db.Test1.deleteOne({id:10})
 
 
-exit
-cls
+db.Test1.deleteOne(
+       { id: 1 },
+       { grade:'c'}
+   );
+
+db.Test1.deleteOne({ name: "name1" });
+---------------------------------------------------------------------
+
+16) Remove
+
+db.Test1.remove({ mob: { $gte: 85655} } )
+---------------------------------------------------------------------
+17)Distinict
+db.Test1.distinct("Grade")
+
+---------------------------------------------------------------------
+18) count
+
+db.Test1.aggregate( [
+     { $count: "mob" }
+])
+
+db.Test1.find().count()
+---------------------------------------------------------------------
+
+19) dataSize
+db.Test1.dataSize()
+
+result: 598
+---------------------------------------------------------------------
+20) aggregate
+
+db.Test1.aggregate(
+    { $match: { grade: "B" }  }
+  
+)
+
+---------------------------------------------------------------------
+21) storageSize
+
+db.Test1.storageSize()
+
+result: 36864
+
+---------------------------------------------------------------------
+22) Average aggregate
+
+db.Test1.aggregate([
+  { $group: { _id: null, averageMob: { $avg: "$mob" } } }
+])
+
+result:_id:null
+averageMob:130745
+---------------------------------------------------------------------
+23) count
+
+db.Test1.count( { mob: { $gt: 55555 } } )
+
+count=3
+---------------------------------------------------------------------
+24) multiple queries
+
+db.Sales.aggregate(
+    {
+        $match: {"sales": 30}
+    },
+    {
+        $group: {
+            _id: null,
+            total: { $sum: "$quantity" },
+            count: { $sum: 1 }
+        }
+    },
+    {
+        $project: {"_id": 0, total: 1, count: 1}
+    }
+)
+---------------------------------------------------------------------
+25)multiple aggregates
+
+db.Sales.aggregate( [
+   // Stage 1: ship mode order documents by ship mode type
+   {
+      $match: { ship_mode: "First Class" }
+   },
+   // Stage 2: Group remaining documents by id name and calculate total quantity
+   {
+      $group: { _id: "$sales", totalQuantity: { $sum: "$quantity" } }
+   }
+] )
+
+---------------------------------------------------------------------
+
+
+
+
 
