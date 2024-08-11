@@ -1,0 +1,132 @@
+MDB_Task2
+-------------------------------------------------------------------------------
+1) Lookup pipeline for Kirana_data per category and greater than 5 no_of_emp
+
+{
+  from: "Kirana_data",
+  let:{customer_id:"$id",category_re:"$catogory"},
+  pipeline:[
+    {
+      $match:{
+        $expr:{
+          $and:[
+            {$eq:["$id", "$$customer_id"]},
+            {$eq:["$$category_re", "retial"]},
+            {$gt:["$no_of_emp", 5]}
+          ]
+        }
+      }
+    }
+  ],
+  as: "Data"
+}
+-------------------------------------------------------------------------------
+
+2) Lookup pipeline for Kirana_data per category wholesale and sales less than 5000 
+
+{
+  from: "Kirana_data",
+  let:{customer_id:"$id",category_r:"$catogory"},
+  pipeline:[
+    {
+      $match:{
+        $expr:{
+          $and:[
+            {$eq:["$id", "$$customer_id"]},
+            {$eq:["$$category_r", "wholesale"]},
+            {$lt:["$sales", 5000]}
+          ]
+        }
+      }
+    }
+  ],
+  as: "Data"
+}
+
+
+-------------------------------------------------------------------------------
+3)Lookup pipeline for europdata per age category is greater than 35
+
+{
+  from: "eurodata",
+  let:{customer_id:"$id",age_category:"$age"},
+       pipeline:[
+         {
+           $match:{
+             $expr:{
+               $and:[
+                 {$eq:["$id", "$$customer_id"]},
+                 {$gte:["$$age_category", 35]},
+               ]
+             }
+           }
+         }
+       ],
+  as: "outputdata"
+}
+
+
+-------------------------------------------------------------------------------
+4) Lookup pipeline for europ data  as per position of emp having hight greater than 175
+
+{
+  from: "eurodata",
+  let:{customer_id:"$id",posisiton:"$posisiton"},
+       pipeline:[
+         {
+           $match:{
+             $expr:{
+               $and:[
+                 {$eq:["$id", "$$customer_id"]},
+                 {$eq:["$$posisiton", "Centre-Back"]},
+		 {$gte:["$hight", 175]}
+               ]
+             }
+           }
+         }
+       ],
+  as: "outputdata"
+}
+-------------------------------------------------------------------------------
+
+5) Lookup pipeline for loan data as per home ownership whose loan amount is greater than 1000
+{
+  from: "loandata",
+  let:{id:"$customer_id", home_onor:"$home_ownership"},
+  pipeline:[
+    {
+      $match:{
+        $expr:{
+          $and:[
+            {$eq:["$customer_id", "$$id"]},
+            {$eq:["$$home_onor", "OWN"]},
+             {$gte:["$loan_amnt", 1000]}
+           
+          ]
+        }
+      }
+    }
+  ],
+  as: "Output_data"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
